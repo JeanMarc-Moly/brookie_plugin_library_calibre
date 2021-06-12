@@ -11,8 +11,9 @@ from databases import Database, DatabaseURL
 
 @dataclass
 class Calibre(Library):
+
     DB_PROTOCOL: ClassVar[str] = "sqlite"
-    DB_FILE: ClassVar[str] = "metadata.db"
+    DB_FILE: ClassVar[Path] = Path("metadata.db")
     COVER: ClassVar[Path] = Path("cover.jpg")
 
     name: str
