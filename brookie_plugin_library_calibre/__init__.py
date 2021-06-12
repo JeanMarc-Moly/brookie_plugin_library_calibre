@@ -1,14 +1,14 @@
 from __future__ import annotations
+
 from contextlib import asynccontextmanager
 from dataclasses import dataclass, field
 from io import BytesIO
 from pathlib import Path
 from typing import AsyncGenerator, BinaryIO, ClassVar, Literal
 
-from databases import Database, DatabaseURL
-
 from brookie_plugin_library_abstract import Library
 from brookie_plugin_library_abstract.util import Archive
+from databases import Database, DatabaseURL
 
 
 @dataclass
@@ -22,9 +22,9 @@ class Calibre(Library):
     category: Literal["calibre"]
 
     def __post_init__(self):
-        self.database = Database(DatabaseURL(
-            f"{self.DB_PROTOCOL}:///{self.path / self.DB_FILE}"
-        ))
+        self.database = Database(
+            DatabaseURL(f"{self.DB_PROTOCOL}:///{self.path / self.DB_FILE}")
+        )
 
     async def __aenter__(self) -> Calibre:
         await self.database.connect()
@@ -34,7 +34,9 @@ class Calibre(Library):
         await self.database.disconnect()
 
     async def get_book_cover(self, book_id: int) -> BinaryIO:
-        with ((await self._get_book_path(book_id)).parent / "cover.jpg").open("rb") as c:
+        with ((await self._get_book_path(book_id)).parent / "cover.jpg").open(
+            "rb"
+        ) as c:
             return c
 
     async def get_book_pages(self, book_id: int) -> AsyncGenerator[str, None]:
@@ -64,5 +66,6 @@ class Calibre(Library):
             raise Exception(f"Book {id_} does not exist")
         path, name, ext = r
         return Path(f"{self.path / path / name}.{ext.lower()}")
+
 
 __all__ = ["Calibre"]
