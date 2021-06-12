@@ -38,7 +38,7 @@ class Calibre(Library):
 
     def __post_init__(self, path: str):
         path_ = Path(path)
-        if not path_.is_dir():
+        if path_.is_dir():
             path_ = path_ / self.DB_FILE
         if not path_.exists():
             raise ValueError(f"No db file at {path_}")
