@@ -62,12 +62,12 @@ class Calibre(Library):
 
     async def get_book_pages(self, book_id: int) -> AsyncGenerator[str, None]:
         async with self._get_archive(book_id) as a:
-            async for p in Archive.get_book_pages(a):
+            for p in Archive.get_book_pages(a):
                 yield p
 
     async def get_book_page(self, book_id: int, page_id: int) -> BytesIO:
         async with self._get_archive(book_id) as a:
-            return await Archive.get_book_page(a, page_id)
+            return Archive.get_book_page(a, page_id)
 
     @asynccontextmanager
     async def _get_archive(self, id_: int) -> AsyncGenerator[BinaryIO, None]:
