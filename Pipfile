@@ -25,3 +25,4 @@ pipenv-setup = "*"
 install_dev = 'bash script/install_dev.sh'
 format = 'bash script/format.sh'
 upgrade = 'bash script/upgrade.sh'
+test = 'python -m unittest discover test'
