@@ -19,7 +19,7 @@ class Calibre(Library):
     name: str
     path: InitVar[Path]
     database: Database = field(init=False)
-    category: Literal["calibre"]
+    plugin: Literal["calibre"]
 
     def __post_init__(self, path: Path):
         if not path.is_dir():
