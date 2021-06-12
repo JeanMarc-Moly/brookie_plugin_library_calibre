@@ -1,5 +1,5 @@
 from contextlib import asynccontextmanager
-from dataclasses import dataclass, field
+from dataclasses import InitVar, dataclass, field
 from io import BytesIO
 from pathlib import Path
 from typing import AsyncGenerator, BinaryIO, ClassVar, Literal
@@ -16,14 +16,18 @@ class Calibre(Library):
     COVER: ClassVar[Path] = Path("cover.jpg")
 
     name: str
-    path: Path
-    database: Database = field(default=None, init=False)
+    path: InitVar[Path]
+    database: Database = field(init=False)
     category: Literal["calibre"]
 
-    def __post_init__(self):
-        self.database = Database(
-            DatabaseURL(f"{self.DB_PROTOCOL}:///{self.path / self.DB_FILE}")
-        )
+    def __post_init__(self, path: Path):
+        if not path.is_dir():
+            path = path / self.DB_FILE
+        if not path.exists():
+            raise ValueError(f"No db file at {path}")
+
+        url = DatabaseURL(f"{self.DB_PROTOCOL}:///{path}")
+        self.database = Database(url)
 
     async def __aenter__(self) -> "Calibre":
         await self.database.connect()
