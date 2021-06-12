@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from contextlib import asynccontextmanager
 from dataclasses import dataclass, field
 from io import BytesIO
@@ -26,7 +24,7 @@ class Calibre(Library):
             DatabaseURL(f"{self.DB_PROTOCOL}:///{self.path / self.DB_FILE}")
         )
 
-    async def __aenter__(self) -> Calibre:
+    async def __aenter__(self) -> "Calibre":
         await self.database.connect()
         return self
 
