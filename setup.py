@@ -24,6 +24,7 @@ setup(
     install_requires=[
         "aiosqlite==0.17.0",
         "databases[sqlite]==0.4.3",
+        "pydantic==1.8.2",
         "python-libarchive==4.0.1.post1",
         "sqlalchemy==1.3.24; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
         "typing-extensions==3.10.0.0",
@@ -87,6 +88,6 @@ setup(
         ]
     },
     dependency_links=[
-        "git+https://github.com/JeanMarc-Moly/brookie_plugin_library_abstract.git@5927ef6157f050988f6a54ef6c9ba059b419ce40#egg=brookie-plugin-library-abstract"
+        "git+https://github.com/JeanMarc-Moly/brookie_plugin_library_abstract.git@1193936560add78ef3f8c569b34ac0f860de1192#egg=brookie-plugin-library-abstract"
     ],
 )

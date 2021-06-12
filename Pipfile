@@ -8,6 +8,7 @@ python_version = '3.9.5'
 
 [packages]
 databases = { version = "*", extras = ["sqlite"] }
+pydantic = "*"
 brookie_plugin_library_abstract = { git = "https://github.com/JeanMarc-Moly/brookie_plugin_library_abstract.git" }
 
 [pipenv]
