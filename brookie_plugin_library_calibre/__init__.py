@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from dataclasses import dataclass, field
 from io import BytesIO
 from pathlib import Path
-from typing import AsyncGenerator, BinaryIO, ClassVar
+from typing import AsyncGenerator, BinaryIO, ClassVar, Literal
 
 from databases import Database, DatabaseURL
 
@@ -16,9 +16,11 @@ class Calibre(Library):
     DB_PROTOCOL: ClassVar[str] = "sqlite"
     DB_FILE: ClassVar[str] = "metadata.db"
 
+    name: str
     path: Path
     url: DatabaseURL = field(init=False)
     database: Database = field(init=False)
+    category: Literal["calibre"]
 
     def __post_init__(self):
         self.path = Path(self.path).resolve()
@@ -67,4 +69,4 @@ class Calibre(Library):
         path, name, ext = r
         return Path(f"{self.path / path / name}.{ext.lower()}")
 
-__all__ = [str(Calibre)]
+__all__ = ["Calibre"]
