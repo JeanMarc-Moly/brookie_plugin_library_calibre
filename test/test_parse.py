@@ -18,7 +18,10 @@ class TestParse(TestCase):
     def test_with_valid_full_path(self):
         try:
             parse_obj_as(
-                Calibre, dict(name="books", plugin="calibre", path="resource/calibre/metadata.db"),
+                Calibre,
+                dict(
+                    name="books", plugin="calibre", path="resource/calibre/metadata.db"
+                ),
             )
         except Exception:
             self.fail("Unable to setup calibre plugin")
@@ -32,5 +35,8 @@ class TestParse(TestCase):
     def test_with_invalid_full_path(self):
         with self.assertRaises(ValidationError):
             parse_obj_as(
-                Calibre, dict(name="books", plugin="calibre", path="resource/calibre/invalid.db"),
+                Calibre,
+                dict(
+                    name="books", plugin="calibre", path="resource/calibre/invalid.db"
+                ),
             )
