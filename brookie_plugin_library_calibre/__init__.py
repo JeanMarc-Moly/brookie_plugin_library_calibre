@@ -34,9 +34,8 @@ class Calibre(Library):
         await self.database.disconnect()
 
     async def get_book_cover(self, book_id: int) -> BinaryIO:
-        with ((await self._get_book_path(book_id)).parent / "cover.jpg").open(
-            "rb"
-        ) as c:
+        b = await self._get_book_path(book_id)
+        with (b.parent / self.COVER).open("rb") as c:
             return c
 
     async def get_book_pages(self, book_id: int) -> AsyncGenerator[str, None]:
