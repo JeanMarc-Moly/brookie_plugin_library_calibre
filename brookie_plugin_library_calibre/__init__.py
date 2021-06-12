@@ -18,7 +18,7 @@ class Calibre(Library):
 
     name: str
     path: Path
-    database: Database = field(None, init=False)
+    database: Database = field(default=None, init=False)
     category: Literal["calibre"]
 
     def __post_init__(self):
