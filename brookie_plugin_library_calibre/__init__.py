@@ -13,6 +13,7 @@ from databases import Database, DatabaseURL
 class Calibre(Library):
     DB_PROTOCOL: ClassVar[str] = "sqlite"
     DB_FILE: ClassVar[str] = "metadata.db"
+    COVER: ClassVar[Path] = Path("cover.jpg")
 
     name: str
     path: Path
