@@ -52,7 +52,7 @@ class Calibre(Library):
         await self.database.connect()
         return self
 
-    async def __aexit__(self) -> None:
+    async def __aexit__(self, *_) -> None:
         await self.database.disconnect()
 
     async def get_book_cover(self, book_id: int) -> BinaryIO:
