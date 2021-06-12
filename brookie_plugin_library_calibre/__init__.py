@@ -32,25 +32,27 @@ class Calibre(Library):
     COVER: ClassVar[Path] = Path("cover.jpg")
 
     name: str
-    path: InitVar[Union[DirectoryPath, FilePath]]
+    path: Union[DirectoryPath, FilePath]
     database: Optional[Database] = field(default=None, init=False)
     plugin: Literal["calibre"]
 
-    def __post_init__(self, path: str):
-        path_ = Path(path)
-        if path_.is_dir():
-            path_ = path_ / self.DB_FILE
-        if not path_.exists():
-            raise ValueError(f"No db file at {path_}")
+    def __post_init__(self):
+        path = Path(self.path)
+        if path.is_dir():
+            path = path / self.DB_FILE
+        else:
+            self.path = path.parent
+        if not path.exists():
+            raise ValueError(f"No db file at {path}")
 
-        url = DatabaseURL(f"{self.DB_PROTOCOL}:///{path_}")
+        url = DatabaseURL(f"{self.DB_PROTOCOL}:///{path}")
         self.database = Database(url)
 
     async def __aenter__(self) -> "Calibre":
         await self.database.connect()
         return self
 
-    async def __aexit__(self) -> None:
+    async def __aexit__(self, *_) -> None:
         await self.database.disconnect()
 
     async def get_book_cover(self, book_id: int) -> BinaryIO:
@@ -65,7 +67,7 @@ class Calibre(Library):
 
     async def get_book_page(self, book_id: int, page_id: int) -> BytesIO:
         async with self._get_archive(book_id) as a:
-            return Archive.get_book_page(a, page_id)
+            return await Archive.get_book_page(a, page_id)
 
     @asynccontextmanager
     async def _get_archive(self, id_: int) -> AsyncGenerator[BinaryIO, None]:
