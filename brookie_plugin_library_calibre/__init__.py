@@ -32,18 +32,20 @@ class Calibre(Library):
     COVER: ClassVar[Path] = Path("cover.jpg")
 
     name: str
-    path: InitVar[Union[DirectoryPath, FilePath]]
+    path: Union[DirectoryPath, FilePath]
     database: Optional[Database] = field(default=None, init=False)
     plugin: Literal["calibre"]
 
-    def __post_init__(self, path: str):
-        path_ = Path(path)
-        if path_.is_dir():
-            path_ = path_ / self.DB_FILE
-        if not path_.exists():
-            raise ValueError(f"No db file at {path_}")
+    def __post_init__(self):
+        path = Path(self.path)
+        if path.is_dir():
+            path = path / self.DB_FILE
+        else:
+            self.path = path.parent
+        if not path.exists():
+            raise ValueError(f"No db file at {path}")
 
-        url = DatabaseURL(f"{self.DB_PROTOCOL}:///{path_}")
+        url = DatabaseURL(f"{self.DB_PROTOCOL}:///{path}")
         self.database = Database(url)
 
     async def __aenter__(self) -> "Calibre":
