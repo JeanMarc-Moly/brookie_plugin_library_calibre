@@ -6,7 +6,21 @@ from typing import AsyncGenerator, BinaryIO, ClassVar, Literal
 
 from brookie_plugin_library_abstract import Library
 from brookie_plugin_library_abstract.util import Archive
-from databases import Database, DatabaseURL
+from databases import Database as DB
+from databases import DatabaseURL
+
+
+class Database(DB):
+    class Config:
+        check_fields = False
+
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, db: DB):
+        return db
 
 
 @dataclass
