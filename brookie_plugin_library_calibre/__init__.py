@@ -55,10 +55,10 @@ class Calibre(Library):
     async def __aexit__(self, *_) -> None:
         await self.database.disconnect()
 
-    async def get_book_cover(self, book_id: int) -> BinaryIO:
+    async def get_book_cover(self, book_id: int) -> BytesIO:
         b = await self._get_book_path(book_id)
         with (b.parent / self.COVER).open("rb") as c:
-            return c
+            return BytesIO(c.read())
 
     async def get_book_pages(self, book_id: int) -> AsyncGenerator[str, None]:
         async with self._get_archive(book_id) as a:
