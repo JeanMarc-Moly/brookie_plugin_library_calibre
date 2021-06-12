@@ -1,5 +1,5 @@
 from contextlib import asynccontextmanager
-from dataclasses import InitVar, dataclass, field
+from dataclasses import dataclass, field
 from io import BytesIO
 from pathlib import Path
 from typing import AsyncGenerator, BinaryIO, ClassVar, Literal, Optional, Union
