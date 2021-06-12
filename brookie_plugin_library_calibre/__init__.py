@@ -18,16 +18,13 @@ class Calibre(Library):
 
     name: str
     path: Path
-    url: DatabaseURL = field(init=False)
-    database: Database = field(init=False)
+    database: Database = field(None, init=False)
     category: Literal["calibre"]
 
     def __post_init__(self):
-        self.path = Path(self.path).resolve()
-        self.url = url = DatabaseURL(
+        self.database = Database(DatabaseURL(
             f"{self.DB_PROTOCOL}:///{self.path / self.DB_FILE}"
-        )
-        self.database = Database(url)
+        ))
 
     async def __aenter__(self) -> Calibre:
         await self.database.connect()
