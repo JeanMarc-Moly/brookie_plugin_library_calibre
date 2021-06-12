@@ -2,12 +2,13 @@ from contextlib import asynccontextmanager
 from dataclasses import InitVar, dataclass, field
 from io import BytesIO
 from pathlib import Path
-from typing import AsyncGenerator, BinaryIO, ClassVar, Literal
+from typing import AsyncGenerator, BinaryIO, ClassVar, Literal, Optional, Union
 
 from brookie_plugin_library_abstract import Library
 from brookie_plugin_library_abstract.util import Archive
 from databases import Database as DB
 from databases import DatabaseURL
+from pydantic.types import DirectoryPath, FilePath
 
 
 class Database(DB):
@@ -31,17 +32,18 @@ class Calibre(Library):
     COVER: ClassVar[Path] = Path("cover.jpg")
 
     name: str
-    path: InitVar[Path]
-    database: Database = field(init=False)
+    path: InitVar[Union[DirectoryPath, FilePath]]
+    database: Optional[Database] = field(default=None, init=False)
     plugin: Literal["calibre"]
 
-    def __post_init__(self, path: Path):
-        if not path.is_dir():
-            path = path / self.DB_FILE
-        if not path.exists():
-            raise ValueError(f"No db file at {path}")
+    def __post_init__(self, path: str):
+        path_ = Path(path)
+        if not path_.is_dir():
+            path_ = path_ / self.DB_FILE
+        if not path_.exists():
+            raise ValueError(f"No db file at {path_}")
 
-        url = DatabaseURL(f"{self.DB_PROTOCOL}:///{path}")
+        url = DatabaseURL(f"{self.DB_PROTOCOL}:///{path_}")
         self.database = Database(url)
 
     async def __aenter__(self) -> "Calibre":
