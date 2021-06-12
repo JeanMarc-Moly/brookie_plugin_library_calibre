@@ -6,7 +6,7 @@ with (Path(__file__).resolve().parent / "README.md").open(encoding="utf-8") as f
 
 setup(
     name="brookie_plugin_library_calibre",
-    version="0.1.0",
+    version="0.1.1",
     description="Calibre library plugin for brookie",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -27,59 +27,66 @@ setup(
         "python-libarchive==4.0.1.post1",
         "sqlalchemy==1.3.24; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
         "typing-extensions==3.10.0.0",
-    ],  # Optional
-    # List additional groups of dependencies here (e.g. development
-    # dependencies). Users will be able to install these using the "extras"
-    # syntax, for example:
-    #
-    #   $ pip install sampleproject[dev]
-    #
-    # Similar to `install_requires` above, these must be valid existing
-    # projects.
-    extras_require={"dev": []},  # Optional
-    # If there are data files included in your packages that need to be
-    # installed, specify them here.
-    #
-    # Sometimes you’ll want to use packages that are properly arranged with
-    # setuptools, but are not published to PyPI. In those cases, you can specify
-    # a list of one or more dependency_links URLs where the package can
-    # be downloaded, along with some additional hints, and setuptools
-    # will find and install the package correctly.
-    # see https://python-packaging.readthedocs.io/en/latest/dependencies.html#packages-not-on-pypi
-    #
-    dependency_links=[
-        "git+https://github.com/JeanMarc-Moly/brookie_plugin_library_abstract.git@5655ac2667f04abfebe35dcc1852e8143056a2f8#egg=brookie-plugin-library-abstract"
     ],
-    # If using Python 2.6 or earlier, then these have to be included in
-    # MANIFEST.in as well.
-    # package_data={"sample": ["package_data.dat"]},  # Optional
-    # Although 'package_data' is the preferred approach, in some case you may
-    # need to place data files outside of your packages. See:
-    # http://docs.python.org/3.4/distutils/setupscript.html#installing-additional-files
-    #
-    # In this case, 'data_file' will be installed into '<sys.prefix>/my_data'
-    # data_files=[("my_data", ["data/data_file"])],  # Optional
-    # To provide executable scripts, use entry points in preference to the
-    # "scripts" keyword. Entry points provide cross-platform support and allow
-    # `pip` to create the appropriate form of executable for the target
-    # platform.
-    #
-    # For example, the following would provide a command called `sample` which
-    # executes the function `main` from this package when invoked:
-    # entry_points={"console_scripts": ["sample=sample:main"]},  # Optional
-    # List additional URLs that are relevant to your project as a dict.
-    #
-    # This field corresponds to the "Project-URL" metadata fields:
-    # https://packaging.python.org/specifications/core-metadata/#project-url-multiple-use
-    #
-    # Examples listed include a pattern for specifying where the package tracks
-    # issues, where the source is hosted, where to say thanks to the package
-    # maintainers, and where to support the project financially. The key is
-    # what's used to render the link text on PyPI.
-    project_urls={  # Optional
-        "Bug Reports": "https://github.com/pypa/sampleproject/issues",
-        "Funding": "https://donate.pypi.org",
-        "Say Thanks!": "http://saythanks.io/to/example",
-        "Source": "https://github.com/pypa/sampleproject/",
+    extras_require={
+        "dev": [
+            "appdirs==1.4.4",
+            "astroid==2.5.8; python_version ~= '3.6'",
+            "attrs==21.2.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
+            "backcall==0.2.0",
+            "black==19.10b0",
+            "cached-property==1.5.2",
+            "cerberus==1.3.4",
+            "certifi==2021.5.30",
+            "chardet==4.0.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
+            "click==8.0.1; python_version >= '3.6'",
+            "colorama==0.4.4; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
+            "decorator==5.0.9; python_version >= '3.5'",
+            "distlib==0.3.2",
+            "idna==2.10; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "ipython==7.24.1",
+            "ipython-genutils==0.2.0",
+            "isort==5.8.0",
+            "jedi==0.18.0; python_version >= '3.6'",
+            "lazy-object-proxy==1.6.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4, 3.5'",
+            "matplotlib-inline==0.1.2; python_version >= '3.5'",
+            "mccabe==0.6.1",
+            "mypy==0.902",
+            "mypy-extensions==0.4.3",
+            "orderedmultidict==1.0.1",
+            "packaging==20.9; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "parso==0.8.2; python_version >= '3.6'",
+            "pathspec==0.8.1",
+            "pep517==0.10.0",
+            "pexpect==4.8.0; sys_platform != 'win32'",
+            "pickleshare==0.7.5",
+            "pip-shims==0.5.3; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
+            "pipenv-setup==3.1.1",
+            "pipfile==0.0.2",
+            "plette[validation]==0.2.3; python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "prompt-toolkit==3.0.18; python_full_version >= '3.6.1'",
+            "ptyprocess==0.7.0",
+            "pygments==2.9.0; python_version >= '3.5'",
+            "pylint==3.0.0a3",
+            "pyparsing==3.0.0b2; python_version >= '3.5'",
+            "python-dateutil==2.8.1; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "regex==2021.4.4",
+            "requests==2.25.1; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
+            "requirementslib==1.5.16; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
+            "six==1.16.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "toml==0.10.2; python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "tomlkit==0.7.2; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
+            "traitlets==5.0.5; python_version >= '3.7'",
+            "typed-ast==1.4.3",
+            "typing-extensions==3.10.0.0",
+            "urllib3==1.26.5; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4.0'",
+            "vistir==0.5.2; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "wcwidth==0.2.5",
+            "wheel==0.36.2; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
+            "wrapt==1.12.1",
+        ]
     },
+    dependency_links=[
+        "git+https://github.com/JeanMarc-Moly/brookie_plugin_library_abstract.git@d6d2af838683077da5785e0fc2313db20ff3685a#egg=brookie-plugin-library-abstract"
+    ],
 )
