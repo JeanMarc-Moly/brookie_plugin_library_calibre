@@ -6,7 +6,7 @@ with (Path(__file__).resolve().parent / "README.md").open(encoding="utf-8") as f
 
 setup(
     name="brookie_plugin_library_calibre",
-    version="0.2.3",
+    version="0.3.0",
     description="Calibre library plugin for brookie",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -87,6 +87,6 @@ setup(
         ]
     },
     dependency_links=[
-        "git+https://github.com/JeanMarc-Moly/brookie_plugin_library_abstract.git@af289544758693ef5d4afaaf59aa5fe5a27d8bca#egg=brookie-plugin-library-abstract"
+        "git+https://github.com/JeanMarc-Moly/brookie_plugin_library_abstract.git@5927ef6157f050988f6a54ef6c9ba059b419ce40#egg=brookie-plugin-library-abstract"
     ],
 )

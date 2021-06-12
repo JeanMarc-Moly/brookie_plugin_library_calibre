@@ -1,32 +1,50 @@
-from __future__ import annotations
-
 from contextlib import asynccontextmanager
-from dataclasses import dataclass, field
+from dataclasses import InitVar, dataclass, field
 from io import BytesIO
 from pathlib import Path
 from typing import AsyncGenerator, BinaryIO, ClassVar, Literal
 
 from brookie_plugin_library_abstract import Library
 from brookie_plugin_library_abstract.util import Archive
-from databases import Database, DatabaseURL
+from databases import Database as DB
+from databases import DatabaseURL
+
+
+class Database(DB):
+    class Config:
+        check_fields = False
+
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, db: DB):
+        return db
 
 
 @dataclass
 class Calibre(Library):
+
     DB_PROTOCOL: ClassVar[str] = "sqlite"
-    DB_FILE: ClassVar[str] = "metadata.db"
+    DB_FILE: ClassVar[Path] = Path("metadata.db")
+    COVER: ClassVar[Path] = Path("cover.jpg")
 
     name: str
-    path: Path
-    database: Database = field(default=None, init=False)
-    category: Literal["calibre"]
+    path: InitVar[Path]
+    database: Database = field(init=False)
+    plugin: Literal["calibre"]
 
-    def __post_init__(self):
-        self.database = Database(
-            DatabaseURL(f"{self.DB_PROTOCOL}:///{self.path / self.DB_FILE}")
-        )
+    def __post_init__(self, path: Path):
+        if not path.is_dir():
+            path = path / self.DB_FILE
+        if not path.exists():
+            raise ValueError(f"No db file at {path}")
 
-    async def __aenter__(self) -> Calibre:
+        url = DatabaseURL(f"{self.DB_PROTOCOL}:///{path}")
+        self.database = Database(url)
+
+    async def __aenter__(self) -> "Calibre":
         await self.database.connect()
         return self
 
@@ -34,9 +52,8 @@ class Calibre(Library):
         await self.database.disconnect()
 
     async def get_book_cover(self, book_id: int) -> BinaryIO:
-        with ((await self._get_book_path(book_id)).parent / "cover.jpg").open(
-            "rb"
-        ) as c:
+        b = await self._get_book_path(book_id)
+        with (b.parent / self.COVER).open("rb") as c:
             return c
 
     async def get_book_pages(self, book_id: int) -> AsyncGenerator[str, None]:
