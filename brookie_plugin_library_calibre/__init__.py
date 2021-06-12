@@ -34,8 +34,7 @@ class Calibre(Library):
         return self
 
     async def __aexit__(self) -> None:
-        await self.database.disconnect
-
+        await self.database.disconnect()
 
     async def get_book_cover(self, book_id: int) -> BinaryIO:
         with ((await self._get_book_path(book_id)).parent / "cover.jpg").open("rb") as c:
